@@ -1,6 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { MemberStatus, MemberType } from "../libs/enums/member.enum";
-//Schmema first & Code first
 const memberSchema = new Schema(
   {
     memberNick: {
@@ -24,6 +22,7 @@ const memberSchema = new Schema(
     },
     memberImage: {
       type: String,
+      default:"",
     },
     univerImages: {
       type: [String],

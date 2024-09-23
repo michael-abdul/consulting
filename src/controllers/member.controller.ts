@@ -100,7 +100,18 @@ memberController.updateMember = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("updateMember");
     const input: MemberUpdateInput = req.body;
-    if (req.file) input.memberImage = req.file.path.replace(/\\/, "/");
+    console.log('input', input);
+    if (req.files && req.files['memberImage'] && req.files['memberImage'].length > 0) {
+      input.memberImage = req.files['memberImage'][0].path.replace(/\\/, "/");
+    }
+
+    // Check if 'univerImages' exists in req.files
+    if (req.files && req.files['univerImages'] && req.files['univerImages'].length > 0) {
+      input.univerImages = req.files['univerImages'].map(file =>
+        file.path.replace(/\\/, "/")
+      );
+    }
+
     const result = await memberService.updateMember(req.member, input);
     res.status(HttpCode.OK).json(result);
   } catch (err) {

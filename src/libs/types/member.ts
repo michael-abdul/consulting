@@ -12,16 +12,17 @@ export interface Member {
   memberAddress?: string;
   memberDesc?: string;
   memberImage?: string;
-  memberPoints: number;
+  memberPosts: number;
+  memberTeams: number;
+  univerImages?:string[];
+
+
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface MemberInput {
-  memberType?: MemberType;
-  memberStatus?: MemberStatus;
   memberNick: string;
-  memberPhone: string;
   memberPassword: string;
   memberAddress?: string;
   memberDesc?: string;
@@ -35,19 +36,22 @@ export interface LoginInput {
 
 export interface MemberUpdateInput {
   _id: ObjectId;
-  memberStatus?: MemberStatus;
   memberNick?: string;
-  memberPhone?: string;
-  memberPassword: string;
   memberAddress?: string;
   memberDesc?: string;
   memberImage?: string;
+  univerImages?:string[];
+  memberPosts?: number;
+  memberTeams?: number;
+
 }
 
 export interface ExtendedRequest extends Request {
   member: Member;
   file: Express.Multer.File;
-  files: Express.Multer.File[];
+  files?: {
+    [fieldname: string]: Express.Multer.File[] ;
+  };
 }
 
 export interface AdminRequest extends Request {

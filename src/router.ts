@@ -4,6 +4,7 @@ import memberController from "./controllers/member.controller";
 import uploader from "./libs/utils/uploader";
 import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
+import makeUploader from "./libs/utils/uploader";
 /* Member*/
 router.get("/member/restaurant", memberController.getRestaurant);
 router.post("/member/login", memberController.login);
@@ -18,12 +19,22 @@ router.get(
   memberController.verifyAuth,
   memberController.getMemberDetail
 );
+// router.post(
+//   "/member/update",
+//   memberController.verifyAuth,
+//   uploader("members").single("memberImage"),makeUploader('univer').array('univerImages', 3),
+//   memberController.updateMember
+// );
 router.post(
   "/member/update",
   memberController.verifyAuth,
-  uploader("members").single("memberImage"),
+  uploader("members").fields([
+    { name: "memberImage", maxCount: 1 }, // Single image upload
+    { name: "univerImages", maxCount: 3 } // Array of images upload
+  ]),
   memberController.updateMember
 );
+
 router.get("/member/top-users", memberController.getTopUsers);
 
 /* Product*/
