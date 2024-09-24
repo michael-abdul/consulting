@@ -5,6 +5,7 @@ import uploader from "./libs/utils/uploader";
 import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
 import makeUploader from "./libs/utils/uploader";
+import teamController from "./controllers/team.controller";
 /* Member*/
 router.get("/member/restaurant", memberController.getRestaurant);
 router.post("/member/login", memberController.login);
@@ -19,12 +20,7 @@ router.get(
   memberController.verifyAuth,
   memberController.getMemberDetail
 );
-// router.post(
-//   "/member/update",
-//   memberController.verifyAuth,
-//   uploader("members").single("memberImage"),makeUploader('univer').array('univerImages', 3),
-//   memberController.updateMember
-// );
+
 router.post(
   "/member/update",
   memberController.verifyAuth,
@@ -37,6 +33,12 @@ router.post(
 
 router.get("/member/top-users", memberController.getTopUsers);
 
+/* Team */
+router.post(
+  "/team/create",
+  memberController.retrieveAuth,uploader("teams").single("image"),
+  teamController.createNewTeam
+);
 /* Product*/
 router.get("/product/all", productController.getProducts);
 router.get(
@@ -61,4 +63,5 @@ router.post(
   memberController.verifyAuth,
   orderController.updateOrder
 );
+
 export default router;
