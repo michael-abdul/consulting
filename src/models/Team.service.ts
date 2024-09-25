@@ -68,6 +68,15 @@ class TeamService {
 
     return result;
   }
+  public async removeTeam(id: string): Promise<Team> {
+    const teamId  = shapeIntoMongooseObjectId(id)
+		const search: T = { _id: teamId };
+		const result = await this.teamModel.findOneAndDelete(search).exec();
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.REMOVE_FAILED);
+
+		return result;
+	}
+
 }
 
 export default TeamService;

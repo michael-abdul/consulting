@@ -36,7 +36,7 @@ router.get("/member/top-users", memberController.getTopUsers);
 /* Team */
 router.post(
   "/team/create",
-  memberController.retrieveAuth,uploader("teams").single("image"),
+  memberController.verifyAuth,uploader("teams").single("image"),
   teamController.createNewTeam
 );
 router.get("/team/all", teamController.getTeams);
@@ -47,8 +47,12 @@ router.get(
 );
 router.post(
   "/team/update/:id",
-  memberController.retrieveAuth,uploader("teams").single("image"),
+  memberController.verifyAuth,uploader("teams").single("image"),
   teamController.updateTeam
+);
+router.post(
+  "/team/remove/:id", memberController.verifyAuth,
+  teamController.removeTeam
 );
 /* Product*/
 router.get("/product/all", productController.getProducts);

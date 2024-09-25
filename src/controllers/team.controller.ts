@@ -75,4 +75,17 @@ teamController.updateTeam = async (req: ExtendedRequest, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+
+teamController.removeTeam = async (req: AdminRequest, res: Response) => {
+  try {
+    console.log("removeTeam");
+    const id = req.params.id
+    const result = await teamService.removeTeam(id);
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, removeTeam", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+}
 export default teamController;

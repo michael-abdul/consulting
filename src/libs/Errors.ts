@@ -7,6 +7,7 @@ export enum HttpCode {
   FORBIDDEN = 403,
   NOT_FOUND = 404,
   INTERNAL_SERVER_ERROR = 500,
+
 }
 
 export enum Message {
@@ -20,6 +21,7 @@ export enum Message {
   BLOCKED_USER = "You have been blocked!, contact restaurant!",
   WRONG_PASSWORD = "Wrong password please try again!",
   NOT_AUTHENTICATED = "You are not athenticated, Please login first",
+  REMOVE_FAILED = "Remove failed"
 }
 
 class Errors extends Error {
