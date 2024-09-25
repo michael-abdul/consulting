@@ -40,6 +40,16 @@ router.post(
   teamController.createNewTeam
 );
 router.get("/team/all", teamController.getTeams);
+router.get(
+  "/team/:id",
+  memberController.retrieveAuth,
+  teamController.getTeam
+);
+router.post(
+  "/team/update/:id",
+  memberController.retrieveAuth,uploader("teams").single("image"),
+  teamController.updateTeam
+);
 /* Product*/
 router.get("/product/all", productController.getProducts);
 router.get(

@@ -4,8 +4,9 @@ import Errors, { HttpCode, Message } from "../libs/Errors";
 
 import { T } from "../libs/types/common";
 import { ObjectId } from "mongoose";
-import { TeamInput, TeamInquiry } from "../libs/types/team";
+import { TeamInput, TeamInquiry, TeamUpdateInput } from "../libs/types/team";
 import { Team } from "../libs/types/team";
+import { Member } from "../libs/types/member";
 
 class TeamService {
   private readonly teamModel;
@@ -29,7 +30,6 @@ class TeamService {
       match.name = { $regex: new RegExp(inquiry.search, "i") };
     }
 
-
     const result = await this.teamModel
       .aggregate([
         { $match: match },
@@ -42,7 +42,32 @@ class TeamService {
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
   }
+  public async getTeam(memberId: ObjectId | null, id: string): Promise<Team> {
+    const teamId = shapeIntoMongooseObjectId(id);
+    let result = await this.teamModel.findOne({ _id: teamId }).exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result;
   }
 
-export default TeamService;
+  public async updateTeam(
+    id:string,
+    input: TeamUpdateInput
+  ): Promise<Team> {
+    const teamId = shapeIntoMongooseObjectId(id);
+    const result = await this.teamModel
+      .findOneAndUpdate(
+        {
+          _id: teamId,
+        },
+        input,
+        { new: true }
+      )
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
 
+    return result;
+  }
+}
+
+export default TeamService;
