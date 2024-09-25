@@ -17,7 +17,13 @@ export interface Team  {
     description?: string;
   }
 
-
+  export interface TeamInquiry {
+    page: number;
+    limit: number;
+    search?: string;
+    name?:string;
+  }
+  
   export interface TeamUpdateInput {
     _id: ObjectId;
     name?: string;

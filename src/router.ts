@@ -39,6 +39,7 @@ router.post(
   memberController.retrieveAuth,uploader("teams").single("image"),
   teamController.createNewTeam
 );
+router.get("/team/all", teamController.getTeams);
 /* Product*/
 router.get("/product/all", productController.getProducts);
 router.get(

@@ -27,14 +27,14 @@ const memberSchema = new Schema(
     univerImages: {
       type: [String],
     },
-    memberPosts: {
-      type: Number,
-      default: 0,
-    },
-    memberTeams: {
-      type: Number,
-      default: 0,
-    },
+    // memberPosts: {
+    //   type: Number,
+    //   default: 0,
+    // },
+    // memberTeams: {
+    //   type: Number,
+    //   default: 0,
+    // },
   },
   { timestamps: true } // updatedAt, createdAt
 );
