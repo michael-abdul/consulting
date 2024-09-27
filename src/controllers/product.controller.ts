@@ -99,7 +99,6 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenProduct");
     const id = req.params.id;
-    //console.log(id);
 
     const result = await productService.updateChosenProduct(id, req.body);
 

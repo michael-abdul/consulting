@@ -6,6 +6,8 @@ import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
 import makeUploader from "./libs/utils/uploader";
 import teamController from "./controllers/team.controller";
+import resultController from "./controllers/result.controller";
+
 /* Member*/
 router.get("/member/restaurant", memberController.getRestaurant);
 router.post("/member/login", memberController.login);
@@ -54,6 +56,9 @@ router.post(
   "/team/remove/:id", memberController.verifyAuth,
   teamController.removeTeam
 );
+/* result*/
+router.post("/result/create",memberController.verifyAuth,uploader("result").array("resultImages",5),resultController.createResult)
+router.post("/result/remove/:id",memberController.verifyAuth, resultController.removeResult)
 /* Product*/
 router.get("/product/all", productController.getProducts);
 router.get(
