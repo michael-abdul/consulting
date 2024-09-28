@@ -7,6 +7,7 @@ import orderController from "./controllers/order.controller";
 import makeUploader from "./libs/utils/uploader";
 import teamController from "./controllers/team.controller";
 import resultController from "./controllers/result.controller";
+import customerController from "./controllers/cutomer.controller";
 
 /* Member*/
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -59,6 +60,28 @@ router.post(
 /* result*/
 router.post("/result/create",memberController.verifyAuth,uploader("result").array("resultImages",5),resultController.createResult)
 router.post("/result/remove/:id",memberController.verifyAuth, resultController.removeResult)
+/* Customer */
+router.post(
+  "/customer/create",
+  memberController.verifyAuth,uploader("customers").single("image"),
+  customerController.createNewCustomer
+);
+router.get("/customer/all", customerController.getCustomers);
+router.get(
+  "/customer/:id",
+  memberController.retrieveAuth,
+  customerController.getCustomer
+
+);
+router.post(
+  "/customer/update/:id",
+  memberController.verifyAuth,uploader("customers").single("video"),
+  customerController.updateCustomer
+);
+router.post(
+  "/customer/remove/:id", memberController.verifyAuth,
+  customerController.removeCustomer
+);
 /* Product*/
 router.get("/product/all", productController.getProducts);
 router.get(

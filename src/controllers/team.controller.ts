@@ -22,7 +22,7 @@ teamController.createNewTeam = async (
 
     res.status(HttpCode.CREATED).json(result );
   } catch (err) {
-    console.log("Error, createNewProduct", err);
+    console.log("Error, createNewTeam", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }

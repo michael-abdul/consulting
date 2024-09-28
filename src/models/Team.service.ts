@@ -18,7 +18,7 @@ class TeamService {
     try {
       return await this.teamModel.create(input);
     } catch (err) {
-      console.error("Error, model: createNewProduct:", err);
+      console.error("Error, model: createNewTeam:", err);
 
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
