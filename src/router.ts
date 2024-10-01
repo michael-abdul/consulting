@@ -8,6 +8,7 @@ import makeUploader from "./libs/utils/uploader";
 import teamController from "./controllers/team.controller";
 import resultController from "./controllers/result.controller";
 import customerController from "./controllers/cutomer.controller";
+import articleController from "./controllers/article.controller";
 
 /* Member*/
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -57,9 +58,14 @@ router.post(
   "/team/remove/:id", memberController.verifyAuth,
   teamController.removeTeam
 );
-/* result*/
+/* Result*/
 router.post("/result/create",memberController.verifyAuth,uploader("result").array("resultImages",5),resultController.createResult)
 router.post("/result/remove/:id",memberController.verifyAuth, resultController.removeResult)
+router.get(
+  "/result/all",
+memberController.retrieveAuth,
+  resultController.getAllResults
+);
 /* Customer */
 router.post(
   "/customer/create",
@@ -82,6 +88,28 @@ router.post(
   "/customer/remove/:id", memberController.verifyAuth,
   customerController.removeCustomer
 );
+/* Article */
+router.post(
+  "/article/create",
+  memberController.verifyAuth,uploader("articles").single("image"),
+  articleController.createNewArticle
+);
+router.get("/article/all", articleController.getArticles);
+router.get(
+  "/article/:id",
+  memberController.retrieveAuth,
+  articleController.getArticle
+);
+router.post(
+  "/article/update/:id",
+  memberController.verifyAuth,uploader("articles").single("image"),
+  articleController.updateArticle
+);
+router.post(
+  "/article/remove/:id", memberController.verifyAuth,
+  articleController.removeArticle
+);
+
 /* Product*/
 router.get("/product/all", productController.getProducts);
 router.get(

@@ -33,7 +33,7 @@ resultController.createResult = async (
     }
     }
 
-    resultController.getAllResult = async (req: Request, res: Response) => {
+    resultController.getAllResults = async (req: Request, res: Response) => {
         try {
           console.log("getAllResult");
           const data = await resultService.getAllResults();
