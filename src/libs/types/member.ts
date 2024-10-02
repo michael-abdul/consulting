@@ -14,8 +14,7 @@ export interface Member {
   memberImage?: string;
   memberPosts: number;
   memberTeams: number;
-  univerImages?:string[];
-
+  univerImages?: string[];
 
   createdAt: Date;
   updatedAt: Date;
@@ -40,17 +39,16 @@ export interface MemberUpdateInput {
   memberAddress?: string;
   memberDesc?: string;
   memberImage?: string;
-  univerImages?:string[];
+  univerImages?: string[];
   memberPosts?: number;
   memberTeams?: number;
-
 }
 
 export interface ExtendedRequest extends Request {
   member: Member;
   file: Express.Multer.File;
   files?: {
-    [fieldname: string]: Express.Multer.File[] ;
+    [fieldname: string]: Express.Multer.File[];
   };
 }
 

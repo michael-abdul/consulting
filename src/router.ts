@@ -9,6 +9,7 @@ import teamController from "./controllers/team.controller";
 import resultController from "./controllers/result.controller";
 import customerController from "./controllers/cutomer.controller";
 import articleController from "./controllers/article.controller";
+import messageController from "./controllers/message.controller";
 
 /* Member*/
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -110,6 +111,19 @@ router.post(
   articleController.removeArticle
 );
 
+
+/* <Message> */
+
+router.post(
+  "/message/create",
+  memberController.retrieveAuth,
+  messageController.createMessage
+);
+router.get(
+  "/message/all",
+  memberController.verifyAuth,
+  messageController.getMessages
+);
 /* Product*/
 router.get("/product/all", productController.getProducts);
 router.get(

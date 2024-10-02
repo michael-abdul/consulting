@@ -23,9 +23,8 @@ export interface ArticleUpdate {
   articleImage?: string;
 }
 
-
 export interface ArticleInquiry {
-    page: number;
-    limit: number;
-    search?: string;
-  }
+  page: number;
+  limit: number;
+  search?: string;
+}
