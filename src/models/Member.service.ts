@@ -1,5 +1,6 @@
 import MemberModel from "../schema/Member.model";
 import {
+  ChangePasswordInput,
   LoginInput,
   Member,
   MemberInput,
@@ -99,6 +100,36 @@ class MemberService {
     return result;
   }
 
+  public async changePassword(
+    member: Member,
+    input: ChangePasswordInput
+  ): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+
+    const existingMember = await this.memberModel
+      .findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
+      .select('memberPassword') 
+      .exec();
+  
+    if (!existingMember) {
+      throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    }
+    const isMatch = await bcrypt.compare(input.oldPassword, existingMember.memberPassword);
+    
+    if (!isMatch) {
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);
+    }
+  
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(input.newPassword, salt);
+    existingMember.memberPassword = hashedPassword;
+    await existingMember.save();
+    const updatedMember = existingMember.toJSON();
+    updatedMember.memberPassword = "";
+    
+    return updatedMember;
+  }
+  
   public async getTopUsers(): Promise<Member[]> {
     const result = await this.memberModel
       .find({

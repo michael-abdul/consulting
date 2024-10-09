@@ -26,6 +26,11 @@ router.get(
   memberController.verifyAuth,
   memberController.getMemberDetail
 );
+router.post(
+  "/member/changePassword",
+  memberController.verifyAuth,
+  memberController.changePassword
+);
 
 router.post(
   "/member/update",
