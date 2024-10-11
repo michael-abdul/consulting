@@ -9,6 +9,7 @@ import customerController from "./controllers/cutomer.controller";
 import articleController from "./controllers/article.controller";
 import messageController from "./controllers/message.controller";
 import faqController from "./controllers/faq.controller";
+import statisticController from "./controllers/statistic.controller";
 
 /* Member*/
 router.post("/member/login", memberController.login);
@@ -126,6 +127,29 @@ router.post(
   memberController.verifyAuth,
   articleController.removeArticle
 );
+/* Statistic */
+router.post(
+  "/statistic/create",
+  memberController.verifyAuth,
+  statisticController.createNewStatistic
+);
+router.get("/statistic/all", statisticController.getStatistics);
+router.get(
+  "/statistic/:id",
+  memberController.retrieveAuth,
+  statisticController.getStatistic
+);
+router.post(
+  "/statistic/update/:id",
+  memberController.verifyAuth,
+  statisticController.updateStatistic
+);
+router.post(
+  "/statistic/remove/:id",
+  memberController.verifyAuth,
+  statisticController.removeStatistic
+);
+
 
 /* <Message> */
 
