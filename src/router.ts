@@ -10,6 +10,7 @@ import articleController from "./controllers/article.controller";
 import messageController from "./controllers/message.controller";
 import faqController from "./controllers/faq.controller";
 import statisticController from "./controllers/statistic.controller";
+import journeyController from "./controllers/journey.controller";
 
 /* Member*/
 router.post("/member/login", memberController.login);
@@ -127,6 +128,25 @@ router.post(
   memberController.verifyAuth,
   articleController.removeArticle
 );
+/* Journey */
+router.post(
+  "/journey/create",
+  memberController.verifyAuth,
+  journeyController.createJourney
+);
+router.get("/journey/all", journeyController.getJourneys);
+router.get("/journey/:id", memberController.retrieveAuth, journeyController.getJourney);
+router.post(
+  "/journey/update/:id",
+  memberController.verifyAuth,
+  journeyController.updateJourney
+);
+router.post(
+  "/journey/remove/:id",
+  memberController.verifyAuth,
+  journeyController.removeJourney
+);
+
 /* Statistic */
 router.post(
   "/statistic/create",
