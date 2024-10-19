@@ -22,7 +22,7 @@ router.post(
 );
 router.get(
   "/member/detail",
-  memberController.verifyAuth,
+  memberController.retrieveAuth,
   memberController.getMemberDetail
 );
 router.post(
