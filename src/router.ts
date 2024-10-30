@@ -67,7 +67,7 @@ router.post(
 router.post(
   "/result/create",
   memberController.verifyAuth,
-  uploader("result").array("resultImages", 5),
+  uploader("result").single("resultImages"),
   resultController.createResult
 );
 router.post(

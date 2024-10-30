@@ -5,7 +5,8 @@ import { Request, Response } from "express";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { T } from "../libs/types/common";
 import { AdminRequest, ExtendedRequest } from "../libs/types/member";
-import ResultService, { Result } from "../models/Result.service";
+import ResultService from "../models/Result.service";
+import { ResultInput } from "../libs/types/result";
 
 const resultController: T = {};
 const resultService =  new ResultService();
@@ -16,12 +17,9 @@ resultController.createResult = async (
     res: Response
   ) => {
     try {
-      if (!req.files?.length)
-        throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);
-      const data: Result = req.body;
-      data.resultImages = req.files?.map((ele) => {
-        return ele.path.replace(/\\/g, "/");
-      });
+      const data: ResultInput = req.body;
+      console.log("data",data)
+      data.resultImages = req.file.path.replace(/\\/, "/");
       await resultService.createResult(data);
   
       res.status(HttpCode.CREATED).json(data);

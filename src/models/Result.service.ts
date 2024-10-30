@@ -6,9 +6,8 @@ import { T } from "../libs/types/common";
 import { ObjectId } from "mongoose";
 import { Member } from "../libs/types/member";
 import ResultModel from "../schema/Result.model";
-export interface Result {
-    resultImages:string[]
-}
+import { Result } from "../libs/types/result";
+
 class ResultService {
   private readonly resultModel;
 
@@ -33,13 +32,13 @@ class ResultService {
   }
 
   public async removeResult(id: string): Promise<Result> {
-    const resultId  = shapeIntoMongooseObjectId(id)
-		const search: T = { _id: resultId };
-		const result = await this.resultModel.findOneAndDelete(search).exec();
+    const resultId = shapeIntoMongooseObjectId(id);
+    const search: T = { _id: resultId };
+    const result = await this.resultModel.findOneAndDelete(search).exec();
     if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.REMOVE_FAILED);
 
-		return result;
-	}
+    return result;
+  }
 }
 
 export default ResultService;
