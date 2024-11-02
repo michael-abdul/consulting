@@ -31,15 +31,9 @@ customerController.createNewCustomer = async (
 customerController.getCustomers = async (req: Request, res: Response) => {
   try {
     console.log("getCustomers");
-    const {  page, limit,  search,  } = req.query;
-    const inquiry: CustomerInquiry = {
-      page: Number(page),
-      limit: Number(limit),
-    };
 
-    if (search) inquiry.search = String(search);
 
-    const result = await customerService.getCustomers(inquiry);
+    const result = await customerService.getCustomers();
 
     res.status(HttpCode.OK).json(result);
   } catch (err) {

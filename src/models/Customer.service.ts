@@ -21,20 +21,8 @@ class CustomerService {
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
-  public async getCustomers(inquiry: CustomerInquiry): Promise<Customer[]> {
-    const match: T = {};
-
-    if (inquiry.search) {
-      match.name = { $regex: new RegExp(inquiry.search, "i") };
-    }
-
-    const result = await this.customerModel
-      .aggregate([
-        { $match: match },
-        { $sort: { updatedAt: -1 } },
-        { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
-        { $limit: inquiry.limit * 1 },
-      ])
+  public async getCustomers(): Promise<Customer[]> {
+    const result = await this.customerModel.find()
       .exec();
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
