@@ -27,15 +27,9 @@ statisticController.createNewStatistic = async (
 statisticController.getStatistics = async (req: Request, res: Response) => {
   try {
     console.log("getStatistics");
-    const { page, limit, search } = req.query;
-    const inquiry: StatisticInquiry = {
-      page: Number(page),
-      limit: Number(limit),
-    };
 
-    if (search) inquiry.search = String(search);
 
-    const result = await statisticService.getStatistics(inquiry);
+    const result = await statisticService.getStatistics();
 
     res.status(HttpCode.OK).json(result);
   } catch (err) {

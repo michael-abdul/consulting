@@ -30,18 +30,18 @@ journeyController.createJourney = async (
 journeyController.getJourneys = async (req: Request, res: Response) => {
     try {
       console.log("getJourneys");
-      const { page, limit, search, sort, direction } = req.query;
+      // const { page, limit, search, sort, direction } = req.query;
   
-      const inquiry: JourneyInquiry = {
-        page: Number(page),
-        limit: Number(limit),
-        sort: sort ? String(sort) : undefined, 
-        direction: direction ? String(direction) : undefined 
-      };
+      // const inquiry: JourneyInquiry = {
+      //   page: Number(page),
+      //   limit: Number(limit),
+      //   sort: sort ? String(sort) : undefined, 
+      //   direction: direction ? String(direction) : undefined 
+      // };
   
-      if (search) inquiry.search = String(search);
+      // if (search) inquiry.search = String(search);
   
-      const result = await journeyService.getJourneys(inquiry);
+      const result = await journeyService.getJourneys();//(inquiry)
   
       res.status(HttpCode.OK).json(result);
     } catch (err) {

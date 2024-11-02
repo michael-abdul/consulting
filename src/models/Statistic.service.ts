@@ -20,20 +20,8 @@ class StatisticService {
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
-  public async getStatistics(inquiry: StatisticInquiry): Promise<Statistic[]> {
-    const match: T = {};
-
-    if (inquiry.search) {
-      match.experience = { $regex: new RegExp(inquiry.search, "i") };
-    }
-
-    const result = await this.staticModel
-      .aggregate([
-        { $match: match },
-        { $sort: { updatedAt: -1 } },
-        { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
-        { $limit: inquiry.limit * 1 },
-      ])
+  public async getStatistics(): Promise<Statistic[]> {
+    const result = await this.staticModel.find()
       .exec();
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);

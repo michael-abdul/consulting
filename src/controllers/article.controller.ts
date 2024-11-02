@@ -30,15 +30,15 @@ articleController.createNewArticle = async (
 articleController.getArticles = async (req: Request, res: Response) => {
   try {
     console.log("getArticles");
-    const {  page, limit,  search,  } = req.query;
-    const inquiry: ArticleInquiry = {
-      page: Number(page),
-      limit: Number(limit),
-    };
+    // const {  page, limit,  search,  } = req.query;
+    // const inquiry: ArticleInquiry = {
+    //   page: Number(page),
+    //   limit: Number(limit),
+    // };
 
-    if (search) inquiry.search = String(search);
+    // if (search) inquiry.search = String(search);
 
-    const result = await articleService.getArticles(inquiry);
+    const result = await articleService.getArticles();
 
     res.status(HttpCode.OK).json(result);
   } catch (err) {

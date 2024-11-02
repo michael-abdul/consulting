@@ -30,15 +30,9 @@ teamController.createNewTeam = async (
 teamController.getTeams = async (req: Request, res: Response) => {
   try {
     console.log("getTeams");
-    const {  page, limit,  search,  } = req.query;
-    const inquiry: TeamInquiry = {
-      page: Number(page),
-      limit: Number(limit),
-    };
 
-    if (search) inquiry.search = String(search);
 
-    const result = await teamService.getTeams(inquiry);
+    const result = await teamService.getTeams();
 
     res.status(HttpCode.OK).json(result);
   } catch (err) {

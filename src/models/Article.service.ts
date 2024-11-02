@@ -21,20 +21,8 @@ class ArticleService {
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
-  public async getArticles(inquiry: ArticleInquiry): Promise<Article[]> {
-    const match: T = {};
-
-    if (inquiry.search) {
-      match.articleTitle = { $regex: new RegExp(inquiry.search, "i") };
-    }
-
-    const result = await this.articleModel
-      .aggregate([
-        { $match: match },
-        { $sort: { updatedAt: -1 } },
-        { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
-        { $limit: inquiry.limit * 1 },
-      ])
+  public async getArticles(): Promise<Article[]> {
+    const result = await this.articleModel.find()
       .exec();
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);

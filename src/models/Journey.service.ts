@@ -37,36 +37,42 @@ class JourneyService {
 return result;
 }
 
-public async getJourneys(inquiry: JourneyInquiry): Promise<Journey[]> {
-    const match: any = {};
+public async getJourneys(): Promise<Journey[]> {//inquiry: JourneyInquiry
+//     const match: any = {};
 
-    if (inquiry.search) {
-      match.journeyYear = { $regex: new RegExp(inquiry.search, "i") };
-    }
-    let sortField: string = 'updatedAt'; 
-    if (inquiry.sort && inquiry.sort === 'journeyYear') {
-        sortField = 'journeyYear'; 
-    }
-    let sortDirection: 1 | -1 = -1; 
-    if (inquiry.direction === 'asc') {
-        sortDirection = 1; 
-    }
-    if (inquiry.direction === 'desc') {
-        sortDirection = -1; 
-    }
-    const sortCriteria: Record<string, 1 | -1> = { [sortField]: sortDirection };
+//     if (inquiry.search) {
+//       match.journeyYear = { $regex: new RegExp(inquiry.search, "i") };
+//     }
+//     let sortField: string = 'updatedAt'; 
+//     if (inquiry.sort && inquiry.sort === 'journeyYear') {
+//         sortField = 'journeyYear'; 
+//     }
+//     let sortDirection: 1 | -1 = -1; 
+//     if (inquiry.direction === 'asc') {
+//         sortDirection = 1; 
+//     }
+//     if (inquiry.direction === 'desc') {
+//         sortDirection = -1; 
+//     }
+//     const sortCriteria: Record<string, 1 | -1> = { [sortField]: sortDirection };
 
-    const result = await this.journeyModel
-      .aggregate([
-        { $match: match },
-        { $sort: sortCriteria },
-        { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
-        { $limit: inquiry.limit * 1 },
-      ])
-      .exec();
+//     const result = await this.journeyModel
+//       .aggregate([
+//         { $match: match },
+//         { $sort: sortCriteria },
+//         { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
+//         { $limit: inquiry.limit * 1 },
+//       ])
+//       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
-    return result;
+//     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+//     return result;
+// }
+ const result = await this.journeyModel.find()
+.exec();
+
+if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+return result;
 }
 
 

@@ -36,25 +36,13 @@ class FaqService {
 return result
 }
 
-public async getFaqs(inquiry: FaqInquiry): Promise<Faq[]> {
-    const match: T = {};
+public async getFaqs(): Promise<Faq[]> {
+  const result = await this.faqModel.find()
+  .exec();
 
-    if (inquiry.search) {
-      match.faqTitle = { $regex: new RegExp(inquiry.search, "i") };
-    }
-
-    const result = await this.faqModel
-      .aggregate([
-        { $match: match },
-        { $sort: { updatedAt: -1 } },
-        { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
-        { $limit: inquiry.limit * 1 },
-      ])
-      .exec();
-
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
-    return result;
-  }
+if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+return result;
+}
   public async updateFaq(
     id:string,
     input: FaqUpdate

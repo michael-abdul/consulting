@@ -30,15 +30,15 @@ faqController.createFaq = async (
 faqController.getFaqs = async (req: Request, res: Response) => {
   try {
     console.log("getFaqs");
-    const {  page, limit,  search,  } = req.query;
-    const inquiry: FaqInquiry = {
-      page: Number(page),
-      limit: Number(limit),
-    };
+    // const {  page, limit,  search,  } = req.query;
+    // const inquiry: FaqInquiry = {
+    //   page: Number(page),
+    //   limit: Number(limit),
+    // };
 
-    if (search) inquiry.search = String(search);
+    // if (search) inquiry.search = String(search);
 
-    const result = await faqService.getFaqs(inquiry);
+    const result = await faqService.getFaqs();
 
     res.status(HttpCode.OK).json(result);
   } catch (err) {
