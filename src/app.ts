@@ -16,8 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
-app.use(cors({credentials: true, origin: true}))
-// 3-VIEWS
+
+const allowedOrigins = ["http://localhost:3000", "http://studify.uz"];
+app.use(cors({ credentials: true, origin: allowedOrigins }));// 3-VIEWS
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
