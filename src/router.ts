@@ -11,6 +11,7 @@ import messageController from "./controllers/message.controller";
 import faqController from "./controllers/faq.controller";
 import statisticController from "./controllers/statistic.controller";
 import journeyController from "./controllers/journey.controller";
+import unilogosController from "./controllers/unilogos.controller";
 
 /* Member*/
 router.post("/member/login", memberController.login);
@@ -80,6 +81,26 @@ router.get(
   memberController.retrieveAuth,
   resultController.getAllResults
 );
+
+/* Unilogos*/
+
+router.post(
+  "/unilogos/create",
+  memberController.verifyAuth,
+  uploader("unilogos").single("unilogosImages"),
+  unilogosController.createResult
+);
+router.post(
+  "/unilogos/remove/:id",
+  memberController.verifyAuth,
+  unilogosController.removeResult
+);
+router.get(
+  "/unilogos/all",
+  memberController.retrieveAuth,
+  unilogosController.getAllResults
+);
+
 /* Customer */
 router.post(
   "/customer/create",
