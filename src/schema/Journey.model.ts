@@ -18,6 +18,12 @@ const journeySchema = new Schema(
       type: String,
       required: true,
     },
+
+    journeyTitle: {
+      type: String,
+      required: true,
+    },
+
   },
   { timestamps: true, }
 );

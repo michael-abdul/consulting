@@ -3,6 +3,7 @@ import { FaqStatus } from "../enums/faq.enum";
 export interface JourneyInput {
   journeyYear: string;
   journeyDesc: string;
+  journeyTitle: string;
 }
 
 export interface JourneyUpdate {
@@ -10,12 +11,14 @@ export interface JourneyUpdate {
   journeyStatus?: FaqStatus;
   journeyYear?: string;
   journeyDesc?: string;
+  journeyTitle?: string;
 }
 
 export interface Journey {
   _id: ObjectId;
   journeyYear: string;
   journeyDesc: string;
+  journeyTitle: string;
   createdAt: Date;
   updatedAt: Date;
 }
