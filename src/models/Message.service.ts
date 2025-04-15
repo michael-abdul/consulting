@@ -41,7 +41,7 @@ class MessageService {
   private async notifyAdmin(message: Messages): Promise<void> {
     const url = `https://api.telegram.org/bot${this.telegramBotToken}/sendMessage`; 
     const formattedDate = message.createdAt.toLocaleDateString('en-GB');
-    const text = `New Client:\n\nFull Name: ${message.fullName}\nPhone: ${message.phone}\nCity: ${message.city}\nDate: ${formattedDate}`; 
+    const text = `New Client:\n\nFull Name: ${message.fullName}\nPhone: ${message.phone}\nDate: ${formattedDate}`; 
   
     try {
       await axios.post(url, {
@@ -83,11 +83,6 @@ class MessageService {
               },
             },
           ],
-        },
-        City: {
-          select: {
-            name: message.city,
-          },
         },
         CreatedAt: {
           date: {

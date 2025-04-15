@@ -10,7 +10,6 @@ export interface Messages {
   _id: ObjectId;
   fullName: string;
   phone: string;
-  city: City;
   createdAt: Date;
   updatedAt: Date;
 }
