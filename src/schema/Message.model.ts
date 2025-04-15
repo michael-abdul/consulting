@@ -13,12 +13,6 @@ const messageSchema = new Schema(
       type: String,
       required: true,
     },
-
-    city: {
-      type: String,
-      enum: City,
-      required: true,
-    },
   },
   { timestamps: true, collection: "messages" }
 );
