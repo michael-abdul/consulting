@@ -6,15 +6,18 @@ import axios from "axios";
 
 class MessageService {
   private readonly messageModel;
-  private  readonly adminChatId
+  private readonly adminChatIds: string[];
   private readonly telegramBotToken
   private readonly notionDataBase
   private readonly notionToken
 
   constructor() {
     this.messageModel = MessageModel;
-    this.adminChatId = process.env.ADMIN_CHAT_ID as string; 
-    this.telegramBotToken = process.env.TELEGRAM_BOT_TOKEN as string
+    this.telegramBotToken = process.env.TELEGRAM_BOT_TOKEN as string;
+    this.adminChatIds = (process.env.ADMIN_CHAT_IDS || '')
+      .split(',')
+      .map(id => id.trim())
+      .filter(Boolean);    this.telegramBotToken = process.env.TELEGRAM_BOT_TOKEN as string
     this.notionDataBase = process.env.NOTION_DATABASE_ID as string
     this.notionToken = process.env.NOTION_TOKEN as string
 
@@ -26,10 +29,10 @@ class MessageService {
       const newMessage = await this.messageModel.create(input);
 
       // Notify admin via Telegram
-      await this.notifyAdmin(newMessage);
+      await this.notifyAdmins(newMessage);
 
       // Add entry to Notion database
-      await this.addToNotion(newMessage);
+      // await this.addToNotion(newMessage);
 
       return newMessage;
     } catch (err) {
@@ -38,27 +41,29 @@ class MessageService {
     }
   }
 
-  private async notifyAdmin(message: Messages): Promise<void> {
-    if (!this.adminChatId || !this.telegramBotToken) {
-      console.error("Missing Telegram token or admin chat ID.");
+  public async notifyAdmins(message: Messages): Promise<void> {
+    if (!this.adminChatIds.length || !this.telegramBotToken) {
+      console.error('Missing Telegram token or admin chat IDs.');
       return;
     }
-  
-    const url = `https://api.telegram.org/bot${this.telegramBotToken}/sendMessage`; 
+
+    const url = `https://api.telegram.org/bot${this.telegramBotToken}/sendMessage`;
     const formattedDate = message.createdAt.toLocaleDateString('en-GB');
-    const text = `*New Client:*\n\n*Full Name:* ${message.fullName}\n*Phone:* ${message.phone}\n*Date:* ${formattedDate}`; 
-  
-    try {
-      await axios.post(url, {
-        chat_id: this.adminChatId, 
-        text,
-        parse_mode: "Markdown", // Optional: adds bold formatting
-      });
-      console.log("✅ Notification sent to admin via Telegram"); 
-    } catch (error) {
-      console.error("❌ Failed to send notification to admin:", error); 
+    const text = `*New Client:*\n\n*Full Name:* ${message.fullName}\n*Phone:* ${message.phone}\n*Date:* ${formattedDate}`;
+
+    for (const chatId of this.adminChatIds) {
+      try {
+        await axios.post(url, {
+          chat_id: chatId,
+          text,
+          parse_mode: 'Markdown',
+        });
+        console.log(`✅ Notification sent to admin ${chatId}`);
+      } catch (error) {
+        console.error(`❌ Failed to send to admin ${chatId}:`, error);
+      }
     }
-  }  
+  }
 
 
   private async addToNotion(message: Messages): Promise<void> {
