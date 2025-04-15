@@ -39,21 +39,27 @@ class MessageService {
   }
 
   private async notifyAdmin(message: Messages): Promise<void> {
+    if (!this.adminChatId || !this.telegramBotToken) {
+      console.error("Missing Telegram token or admin chat ID.");
+      return;
+    }
+  
     const url = `https://api.telegram.org/bot${this.telegramBotToken}/sendMessage`; 
     const formattedDate = message.createdAt.toLocaleDateString('en-GB');
-    const text = `New Client:\n\nFull Name: ${message.fullName}\nPhone: ${message.phone}\nDate: ${formattedDate}`; 
+    const text = `*New Client:*\n\n*Full Name:* ${message.fullName}\n*Phone:* ${message.phone}\n*Date:* ${formattedDate}`; 
   
     try {
       await axios.post(url, {
         chat_id: this.adminChatId, 
-        text: text, 
+        text,
+        parse_mode: "Markdown", // Optional: adds bold formatting
       });
-      console.log("Notification sent to admin via Telegram"); 
+      console.log("✅ Notification sent to admin via Telegram"); 
     } catch (error) {
-      console.error("Failed to send notification to admin:", error); 
+      console.error("❌ Failed to send notification to admin:", error); 
     }
-  }
-  
+  }  
+
 
   private async addToNotion(message: Messages): Promise<void> {
     const url = `https://api.notion.com/v1/pages`;
